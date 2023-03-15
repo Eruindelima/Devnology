@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ProdutoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +15,9 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::get('/', function () {
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-    $produtos = Http::get('http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/brazilian_provider');
-    $produtosArray = $produtos->json();
-
-    return view('produtos', ['produtosArray' => $produtosArray]);
-});
-
-
+Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
 

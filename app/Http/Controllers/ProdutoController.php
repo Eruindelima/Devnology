@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Produto;
+use Illuminate\Support\Facades\Http;
 
 class ProdutoController extends Controller
 {
@@ -13,7 +14,15 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        return Produto::all();
+
+        $fornecedorBrasil = Http::get('http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/brazilian_provider')->json();
+        $fornecedorEuropa = Http::get('http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/european_provider')->json();
+
+        return response()->json([
+            'sucesso' => true,
+            'brasil' => $fornecedorBrasil,
+            'europa' => $fornecedorEuropa,
+        ]);
     }
 
     /**

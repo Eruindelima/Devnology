@@ -11,7 +11,7 @@
     </head>
     <body>
         <div>
-            @foreach ($produtosArray as $produto)
+            @foreach ($fornecedorBrasil as $produto)
                 <ul>
                     <li>{{ $produto['nome'] }}</li>
                     <li>{{ $produto['descricao'] }}</li>
