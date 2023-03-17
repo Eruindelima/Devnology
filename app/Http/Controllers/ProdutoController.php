@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Cliente;
+use App\Models\Compra;
 use App\Models\Produto;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class ProdutoController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -38,26 +42,48 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required',
-            'descricao' => 'required',
-            'categoria' => 'required',
-            'imagem' => 'required',
-            'preco' => 'required',
-            'material' => 'required',
-            'departamento' => 'required',
-        ]);
-
-        return Produto::create($request->all());
+        
     }
-
     /**
      * Display the specified resource.
      */
-    public function show($id)
+
+    public function show(string $fornecedor, int $id)
     {
-        return Produto::findOrFail($id);
+
+        try {
+            switch ($fornecedor) {
+
+            case 'brasil':
+                $provider = 'brazilian_provider';
+                break;
+            case 'europa':
+                $provider = 'european_provider';
+                break;
+
+            default:
+                throw new Exception('Fornecedor não encontrado');
+                break;
+        
+            }
+        
+
+            $produto = Http::get('http://616d6bdb6dacbb001794ca17.mockapi.io/devnology/'.$provider.'/'.$id)->json();
+        
+            return response()->json([
+                'sucesso' => true,
+                'dados' => $produto,
+            ]);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'sucesso' => false,
+                'mensagem' => $th->getMessage(),
+            ]);
+        }
     }
+    
+    
 
     /**
      * Show the form for editing the specified resource.

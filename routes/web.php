@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompraController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\ProdutoController;
 
 /*
@@ -21,3 +21,5 @@ use App\Http\Controllers\ProdutoController;
 
 Route::get('/produtos', [ProdutoController::class, 'index'])->name('produtos');
 
+Route::get('/produtos/{fornecedor}/{id}', [ProdutoController::class, 'show'])->name('show');
+Route::post('/compra', [CompraController::class, 'store'])->name('store');
